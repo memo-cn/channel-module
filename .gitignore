@@ -1,3 +1,8 @@
+/docs/zh-CN/CHANGELOG.md
+/docs/en-US/CHANGELOG.md
+
+.DS_Store
+
 # Logs
 logs
 *.log
@@ -97,11 +102,7 @@ dist
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
-# vuepress build output
-.vuepress/dist
-
-# vuepress v2.x temp and cache directory
-.temp
+**/.vitepress/cache
 
 # Docusaurus cache and generated files
 .docusaurus
