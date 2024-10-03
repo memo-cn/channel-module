@@ -6,7 +6,7 @@
 
 ## 文档
 
-[English](https://github.com/memo-cn/channel-module/blob/main/README.md) | [简体中文](https://github.com/memo-cn/channel-module/blob/main/README.zh-CN.md)
+[English](https://memo-cn.github.io/channel-module/en-US/) | [简体中文](https://memo-cn.github.io/channel-module/zh-CN/)
 
 ## 许可
 
