@@ -1,8 +1,8 @@
-# Channel Module<a href="https://github.com/memo-cn/channel-module/blob/main/README.md"><img src="https://img.shields.io/npm/v/channel-module.svg" /></a> <a href="https://github.com/memo-cn/channel-module/blob/main/README.md"><img src="https://packagephobia.now.sh/badge?p=channel-module" /></a>
+# Channel Module <a href="https://github.com/memo-cn/channel-module/blob/main/README.md"><img src="https://img.shields.io/npm/v/channel-module.svg" /></a>
 
 ## Introduction
 
-`channel-module` provides a proxy mechanism that records and forwards basic operations (such as property reading, setting, function calls, etc.) to another JavaScript context for replay execution.
+Using syntax close to native modules to invoke code across different JavaScript runtime environments.
 
 ## Document
 

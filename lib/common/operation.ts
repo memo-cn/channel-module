@@ -1,4 +1,4 @@
-export type Operation =
+export type Operation = (
     | Apply
     | Construct
     | DefineProperty
@@ -14,10 +14,34 @@ export type Operation =
     | SetPrototypeOf
     | Boolean
     | Optional
-    | TypeOf;
+    | TypeOf
+    | Await
+) & { id: string };
 
-export function defineOperation<T extends Operation>(operation: T): T {
-    return operation;
+const OperationsJsonTag = '__op_array_tag__' as const;
+
+/**
+ * 发送的消息应为 json 对象, 为了区分 Operation[] 和普通的 Array, 将前者转换为普通的 Object, 加上 tag 。
+ */
+type OperationsJson = { [OperationsJsonTag]: true } & {
+    [index: number]: Operation;
+    length: number;
+};
+
+export function operationsToJson(operations: Operation[]): OperationsJson {
+    const oc = { [OperationsJsonTag]: true } as OperationsJson;
+    for (let i = 0; i < operations.length; i++) {
+        oc[i] = operations[i];
+    }
+    oc.length = operations.length;
+    return oc;
+}
+
+export function jsonToOperations(operationChain: any): Operation[] | null {
+    if (operationChain?.[OperationsJsonTag as any] && typeof operationChain?.length === 'number') {
+        return Array.from(operationChain);
+    }
+    return null;
 }
 
 export const enum OperationType {
@@ -28,17 +52,19 @@ export const enum OperationType {
     get = 'get',
     getOwnPropertyDescriptor = 'getOwnPropertyDescriptor',
     getPrototypeOf = 'getPrototypeOf',
-    has = 'Has',
+    has = 'has',
     isExtensible = 'isExtensible',
     ownKeys = 'ownKeys',
     preventExtensions = 'preventExtensions',
     set = 'set',
     setPrototypeOf = 'setPrototypeOf',
+    await = 'await',
     boolean = 'boolean',
     optional = 'optional',
     typeOf = 'typeOf',
 }
 
+type Await = { type: OperationType.await };
 type Boolean = { type: OperationType.boolean };
 type Optional = { type: OperationType.optional };
 type TypeOf = { type: OperationType.typeOf };

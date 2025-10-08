@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import { name } from './package.json';
 import { parse, stringify } from 'json-serialization';
 import { createFunctionSerDes } from '@json-serialization/function';
+import { errorSerializer, errorDeserializer } from '@json-serialization/error';
 
 import * as fs from 'fs';
 import { exec } from 'child_process';
@@ -11,7 +12,7 @@ import { createRequire } from 'module';
 
 const require = createRequire(import.meta.url);
 
-import { Channel, Export } from './lib/index';
+import { Channel, Export } from './lib';
 
 export default defineConfig({
     plugins: [
@@ -21,27 +22,32 @@ export default defineConfig({
             configureServer(viteDevServer) {
                 const channel: Channel = {
                     async postMessage(msg) {
-                        viteDevServer.hot.send('channel-module', await stringify(msg, [functionSerDes.serializer]));
+                        viteDevServer.hot.send(
+                            'channel-module',
+                            await stringify(msg, [functionSerDes.serializer, errorSerializer]),
+                        );
                     },
                 };
 
                 viteDevServer.hot.on('channel-module', async (msg) => {
                     if (channel.onmessage) {
-                        channel.onmessage(await parse(msg, [functionSerDes.deserializer]));
+                        channel.onmessage(await parse(msg, [functionSerDes.deserializer, errorDeserializer]));
                     }
                 });
 
                 const functionSerDes = createFunctionSerDes(channel);
 
-                Export(
-                    {
+                Export({
+                    module: {
                         fs,
                         exec,
                         require,
+                        console,
                         import: (name: string) => import(name),
                     },
                     channel,
-                );
+                    id: 'vite',
+                });
             },
         },
         {

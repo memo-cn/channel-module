@@ -1,8 +1,7 @@
 {
     "name": "channel-module",
-    "private": false,
-    "version": "0.0.1",
-    "description": "Channel module provides a proxy mechanism that records and forwards basic operations (such as property reading, setting, function calls, etc.) to another JavaScript runtime environment for replay execution. 信道模块提供了一种记录并转发基本操作（如属性读取、赋值、函数调用等）到不同 JavaScript 运行环境中回放执行的代理机制。",
+    "version": "0.0.2",
+    "description": "Using syntax close to native modules to invoke code across different JavaScript runtime environments. 使用接近原生模块的写法，在不同的 JavaScript 运行环境之间进行代码调用。",
     "keywords": [
         "channel",
         "module",
@@ -16,42 +15,44 @@
     "types": "./dist/index.d.ts",
     "exports": {
         ".": {
+            "types": "./dist/index.d.ts",
             "require": "./dist/index.cjs",
-            "import": "./dist/index.mjs",
-            "types": "./dist/index.d.ts"
+            "import": "./dist/index.mjs"
         }
     },
     "scripts": {
-        "sdk:dev": "vite",
-        "sdk:build": "rimraf ./dist/* && rollup -c --configPlugin rollup-plugin-typescript2",
-        "prettier": "prettier --write .",
-        "docs:dev": "node ./scripts/pre-docs.cjs && vitepress dev docs",
-        "docs:build": "node ./scripts/pre-docs.cjs && vitepress build docs",
+        "dev": "vite",
+        "build": "rimraf ./dist/* && rollup -c --configPlugin rollup-plugin-typescript2",
+        "format": "prettier --write .",
+        "docs:dev": "vitepress dev docs",
+        "docs:build": "vitepress build docs",
         "docs:preview": "vitepress preview docs"
     },
     "devDependencies": {
-        "@babel/core": "^7.24.6",
-        "@babel/preset-env": "^7.24.6",
-        "@json-serialization/binary": "^1.0.0",
-        "@json-serialization/function": "^1.0.0",
+        "@babel/core": "^7.28.4",
+        "@babel/preset-env": "^7.28.3",
+        "@json-serialization/binary": "^1.0.2",
+        "@json-serialization/error": "^1.0.0",
+        "@json-serialization/function": "^1.0.2",
         "@rollup/plugin-babel": "^6.0.4",
-        "@rollup/plugin-commonjs": "^25.0.8",
+        "@rollup/plugin-commonjs": "^28.0.6",
         "@rollup/plugin-json": "^6.1.0",
-        "@rollup/plugin-node-resolve": "^15.2.3",
-        "@rollup/plugin-replace": "^5.0.5",
+        "@rollup/plugin-node-resolve": "^16.0.2",
+        "@rollup/plugin-replace": "^6.0.2",
         "@rollup/plugin-terser": "^0.4.4",
-        "@types/node": "^20.14.1",
-        "json-serialization": "^0.0.6",
-        "prettier": "^3.3.0",
-        "rimraf": "^5.0.7",
-        "rollup": "^4.18.0",
-        "rollup-plugin-dts": "^6.1.1",
+        "@types/node": "^24.6.2",
+        "json-serialization": "1.0.1",
+        "less": "^4.4.2",
+        "prettier": "^3.6.2",
+        "rimraf": "^6.0.1",
+        "rollup": "^4.52.4",
+        "rollup-plugin-dts": "^6.2.3",
         "rollup-plugin-typescript2": "^0.36.0",
-        "tslib": "^2.6.2",
-        "typescript": "^5.4.5",
-        "vite": "^5.2.12",
-        "vitepress": "^1.3.4",
-        "vue": "^3.5.4"
+        "tslib": "^2.8.1",
+        "typescript": "^5.9.3",
+        "vite": "^7.1.9",
+        "vitepress": "^1.6.4",
+        "vue": "^3.5.22"
     },
     "files": [
         "dist",
@@ -74,8 +75,7 @@
         "url": "https://github.com/memo-cn/channel-module/issues"
     },
     "publishConfig": {
-        "access": "public",
-        "registry": "https://registry.npmjs.org"
+        "access": "public"
     },
     "license": "MIT"
 }

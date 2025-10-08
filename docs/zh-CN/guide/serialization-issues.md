@@ -26,46 +26,19 @@
 | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | [json-serialization](https://github.com/memo-cn/json-serialization/blob/main/packages/json/README.zh-CN.md)               | 一个异步 JSON 序列化库，自动处理循环引用关系，支持扩展自定义序列化规则。                                      |
 | [@json-serialization/binary](https://github.com/memo-cn/json-serialization/blob/main/packages/binary/README.zh-CN.md)     | 提供了二进制序列化和反序列化的机制，支持 `ArrayBuffer`、`Buffer`、`Blob`、`File`、`Uint8Array` 这些数据类型。 |
+| [@json-serialization/error](https://github.com/memo-cn/json-serialization/blob/main/packages/error/README.zh-CN.md)       | 提供 `Error` 及其子类的序列化与反序列化机制。                                                                 |
 | [@json-serialization/function](https://github.com/memo-cn/json-serialization/blob/main/packages/function/README.zh-CN.md) | 提供了函数序列化和反序列化的机制，能够在不使用 `eval` 的情况下实现函数的跨上下文调用。                        |
 
 这些库不仅适用于信道模块，也可以用于其他场景。
 
 ## 安装和使用示例 {#installation-and-usage-example}
 
-```bash
-npm i json-serialization
-npm i @json-serialization/binary
-npm i @json-serialization/function
+```ts
+<!--@include: ../../snippets/guide/serialization-issues/install.sh-->
 ```
 
 示例代码展示了如何将仅支持收发字符串消息的基础信道封装为支持收发更多类型消息的信道。
 
 ```ts
-import { parse, stringify } from 'json-serialization';
-import { createFunctionSerDes } from '@json-serialization/function';
-import { binarySerializer, binaryDeserializer } from '@json-serialization/binary';
-
-var basicChannel: {
-    onmessage?: (data: string) => void;
-    postMessage: (data: string) => void;
-};
-
-var channel: {
-    onmessage?: (data: any) => void;
-    postMessage: (data: any) => void;
-} = {
-    async postMessage(data: any) {
-        basicChannel.postMessage(
-            await stringify(data, [functionSerDes.serializer, binarySerializer]),
-        );
-    },
-};
-
-basicChannel.onmessage = async (data: string) => {
-    channel?.onmessage?.(
-        await parse(data, [functionSerDes.deserializer, binaryDeserializer]),
-    );
-};
-
-var functionSerDes = createFunctionSerDes(channel);
+<!--@include: ../../snippets/guide/serialization-issues/use.ts-->
 ```
