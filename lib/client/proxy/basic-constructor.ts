@@ -9,6 +9,9 @@ export type ProxyOptions = {
     invokeQueue: any[];
 };
 
+// 记录所有 operations
+export const operationsSet = new WeakSet<Operation[]>();
+
 // 存储 proxy 到 state 的映射关系
 export const proxyToState = new WeakMap<
     any,
@@ -98,5 +101,6 @@ export function createProxy(operations: Operation[], options: ProxyOptions): any
         operations,
         options,
     });
+    operationsSet.add(operations);
     return proxy;
 }

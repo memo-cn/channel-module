@@ -18,32 +18,6 @@ export type Operation = (
     | Await
 ) & { id: string };
 
-const OperationsJsonTag = '__op_array_tag__' as const;
-
-/**
- * 发送的消息应为 json 对象, 为了区分 Operation[] 和普通的 Array, 将前者转换为普通的 Object, 加上 tag 。
- */
-type OperationsJson = { [OperationsJsonTag]: true } & {
-    [index: number]: Operation;
-    length: number;
-};
-
-export function operationsToJson(operations: Operation[]): OperationsJson {
-    const oc = { [OperationsJsonTag]: true } as OperationsJson;
-    for (let i = 0; i < operations.length; i++) {
-        oc[i] = operations[i];
-    }
-    oc.length = operations.length;
-    return oc;
-}
-
-export function jsonToOperations(operationChain: any): Operation[] | null {
-    if (operationChain?.[OperationsJsonTag as any] && typeof operationChain?.length === 'number') {
-        return Array.from(operationChain);
-    }
-    return null;
-}
-
 export const enum OperationType {
     apply = 'apply',
     construct = 'construct',

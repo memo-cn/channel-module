@@ -4,7 +4,7 @@ import dts from 'rollup-plugin-dts';
 // import json from '@rollup/plugin-json';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-// import terser from '@rollup/plugin-terser';
+import terser from '@rollup/plugin-terser';
 import ts from 'rollup-plugin-typescript2';
 import { defineConfig, OutputOptions, RollupOptions, Plugin } from 'rollup';
 import { createRequire } from 'module';
@@ -13,7 +13,7 @@ const pkg: typeof import('./package.json') = require('./package.json');
 
 const sourcemap = true;
 const input = './lib/index.ts';
-const external: string[] = Object.keys((pkg as any).dependencies || []);
+const external: string[] = Object.keys({ ...(pkg as any).dependencies, ...(pkg as any).peerDependencies });
 
 export default defineConfig(function (commandLineArguments) {
     if (commandLineArguments.watch) {
@@ -22,20 +22,20 @@ export default defineConfig(function (commandLineArguments) {
 });
 
 const plugins = {
-    babel: babel({
-        babelHelpers: 'bundled',
-        minified: true,
-        comments: false,
-        sourceMaps: sourcemap,
-        presets: [
-            [
-                '@babel/preset-env',
-                {
-                    shippedProposals: true,
-                },
-            ],
-        ],
-    }),
+    // babel: babel({
+    //     babelHelpers: 'bundled',
+    //     minified: true,
+    //     comments: false,
+    //     sourceMaps: sourcemap,
+    //     presets: [
+    //         [
+    //             '@babel/preset-env',
+    //             {
+    //                 shippedProposals: true,
+    //             },
+    //         ],
+    //     ],
+    // }),
     commonjs: commonjs({
         sourceMap: sourcemap,
     }),
@@ -58,7 +58,6 @@ const plugins = {
         values: {},
         sourceMap: sourcemap,
     }),
-    terser: null,
     // terser: terser({
     //     sourceMap: sourcemap,
     // }),
@@ -111,10 +110,10 @@ const rollupOptions: RollupOptions[] = [
                 plugins.nodeResolve,
                 plugins.json,
                 plugins.commonjs,
-                plugins.terser,
+                // plugins.terser,
                 // format === 'es' ? plugins.ts.esnext : plugins.ts.es5,
                 plugins.ts.esnext,
-                format === 'es' ? null : plugins.babel,
+                // format === 'es' ? null : plugins.babel,
             ],
             input,
             external,

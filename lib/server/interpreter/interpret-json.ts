@@ -1,7 +1,7 @@
 import { isObject } from '../../utils/is-object';
-import { jsonToOperations, Operation, OperationType } from '../../common/operation';
 import { interpretOperations } from './interpret-operations';
 import { PermissionChecker } from '../../common/operation-permission';
+import { operationsEncoder } from '../../common/operationsEncoder';
 
 // 解释 json: 将 json 中的操作链解释替换为调用结果, 原对象会被修改
 export function interpretJson<T>({
@@ -42,10 +42,12 @@ export function interpretJson<T>({
         }
 
         // 需要在上面完成遍历, 因为操作的参数也可能包含操作
-        const operations = jsonToOperations(value);
-        if (operations) {
+
+        const oldValue = value;
+        value = operationsEncoder.decode(value);
+        if (oldValue !== value) {
             // 如果为操作链, 进行解释
-            value = await interpretOperations({ operations, rootCtx, operationIdToResult, permissionChecker });
+            value = await interpretOperations({ operations: value, rootCtx, operationIdToResult, permissionChecker });
         }
 
         valueToNewValue.set(originalValue, value);

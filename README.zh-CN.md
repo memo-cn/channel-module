@@ -1,4 +1,4 @@
-# 信道模块（Channel Module）<a href="https://github.com/memo-cn/channel-module/blob/main/README.zh-CN.md"><img src="https://img.shields.io/npm/v/channel-module.svg" /></a>
+# 信道模块（Channel Module）<a href="https://www.npmjs.com/package/channel-module"><img src="https://img.shields.io/npm/v/channel-module.svg" /></a>
 
 ## 介绍
 

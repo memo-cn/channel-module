@@ -1,5 +1,7 @@
 # channel-module Change Log
 
+## v0.0.3（2025-12-21）
+
 ## v0.0.2（2025-10-08）
 
 Support setting operation permissions for exported modules.

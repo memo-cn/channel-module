@@ -1,6 +1,6 @@
 import { isObject } from '../../utils/is-object';
-import { operationsToJson } from '../../common/operation';
 import { proxyToState } from './basic-constructor';
+import { operationsEncoder } from '../../common/operationsEncoder';
 
 // 将包含 Proxy 的对象转换为 json 对象, 原对象不会被修改
 export function transformProxyToJson<T = any>(obj: T): T {
@@ -23,10 +23,12 @@ export function transformProxyToJson<T = any>(obj: T): T {
         const state = proxyToState.get(current);
         if (state) {
             // 转换为 json
-            current = operationsToJson(state.operations);
+            current = state.operations;
 
             // 现在不能直接返回, 因为它有可能包含其他操作链, 因此还需要继续往下处理
         }
+
+        current = operationsEncoder.encode(current);
 
         // 初始化克隆对象或数组
         let clone: any;

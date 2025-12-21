@@ -1,4 +1,4 @@
-# Channel Module <a href="https://github.com/memo-cn/channel-module/blob/main/README.md"><img src="https://img.shields.io/npm/v/channel-module.svg" /></a>
+# Channel Module <a href="https://www.npmjs.com/package/channel-module"><img src="https://img.shields.io/npm/v/channel-module.svg" /></a>
 
 ## Introduction
 
